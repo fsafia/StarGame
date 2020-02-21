@@ -12,9 +12,8 @@ public class MenuScreen extends BaseScreen {
     private Vector2 touch;
     private Vector2 v;
     private Vector2 pos;
-    private Vector2 n;
-    private volatile float xCurrent;
-    private float yCurrent;
+    private Vector2 buf;
+    private static final float V_LEN = 0.0005f;
 
     @Override
     public void show() {
@@ -22,6 +21,7 @@ public class MenuScreen extends BaseScreen {
         img = new Texture("badlogic.jpg");
         touch = new Vector2();
         v = new Vector2();
+        buf = new Vector2();
         pos = new Vector2();
     }
 
@@ -30,26 +30,14 @@ public class MenuScreen extends BaseScreen {
         super.render(delta);
         Gdx.gl.glClearColor(0.5f, 0.9f, 0.4f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Vector2 vNull = new Vector2();
 
-        if (((pos.y + img.getHeight()) <= Gdx.graphics.getHeight()) && (pos.x + img.getWidth()) <= Gdx.graphics.getWidth() && pos.y >= 0 && pos.x >= 0) {
+        buf.set(touch);
 
-            if (pos.x < xCurrent){
-                v = n;
-                pos.add(v.nor());
-                System.out.println("pos.x = " + pos.x + "pos.y = " + pos.y);
-                System.out.println(" xCurrent = " + xCurrent + "yCurrent " + yCurrent);
-
-            } else {
-                v.set(0f,0f);
-            }
-             if(pos.x > xCurrent) {
-                 v = n;
-                pos.add(v.nor());
-                System.out.println("tX = " + touch.x + "tY = " + touch.y);
-                System.out.println("pX = " + pos.x + "pY = " + pos.y);
-                System.out.println(" xCurrent = " + xCurrent + "yCurrent " + yCurrent);
-            }
-
+        if (buf.sub(pos).len() < V_LEN) {
+            pos.add(v);
+        } else {
+            pos.set(touch);
         }
 
         batch.begin();
@@ -68,9 +56,7 @@ public class MenuScreen extends BaseScreen {
         super.touchDown(screenX, screenY, pointer, button);
         touch.set(screenX, Gdx.graphics.getHeight() - screenY);
         System.out.println("touch.x = " + touch.x + " touch.y " + touch.y);
-        xCurrent = touch.x;
-        yCurrent = touch.y;
-        n = touch.sub(pos);
+        v.set(touch.cpy().sub(pos).setLength(V_LEN));
         return false;
     }
 
