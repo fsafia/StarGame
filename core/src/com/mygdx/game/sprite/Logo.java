@@ -10,6 +10,9 @@ import com.mygdx.game.math.Rect;
 public class Logo extends Sprite {
 
     public Vector2 v = new Vector2();
+    public Vector2 touch = new Vector2();
+    public Vector2 buf = new Vector2();
+    private static final float V_LEN = 0.01f;
 
     public Logo(Texture region) {
         super(new TextureRegion(region));
@@ -18,7 +21,7 @@ public class Logo extends Sprite {
     public void draw (SpriteBatch batch) {
         batch.draw(
                 regions[frame],      // текстура
-                getLeft(), getBottom(),  //точка отрисовки Ставится в центр, методы из Rect -cмещают текстуру на половину высоты, половину ширины.
+                getPos().x, getPos().y,  //точка отрисовки логотипа в начале Ставится в центр.
                 halfWidth, halfHeight,   // точка врацения размещаем по центру половину высоты и ширины
                 getWidth(), getHeight(),
                 scale, scale, //скалирование
@@ -33,16 +36,22 @@ public class Logo extends Sprite {
         setHeightProportion(0.25f);
         this.pos.set(worldBounds.pos);
     }
-
+    @Override
     public  void touchDown(Vector2 touch, int pointer, int button) {
-
+        this.touch.set(touch);
         v.set(touch.cpy().sub(pos));
-        v.setLength(0.01f);
-//        if (touch.cpy().sub(pos).len() > 0.01f) {
-//            pos.add(v);
-//        } else {
-//            pos.set(touch);
-//        }
+        v.setLength(V_LEN);
+
+    }
+
+    public Vector2 getPos() {
+        buf.set(touch);
+        if (buf.sub(pos).len() > V_LEN) {
+            pos.add(v);
+        } else {
+            pos.set(touch);
+        }
+        return pos;
 
     }
 }

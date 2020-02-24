@@ -14,9 +14,6 @@ public class MenuScreen extends BaseScreen {
     private Texture img;
     private Texture bg;
 
-    private Vector2 touch;
-    private Vector2 buf;
-
     private Background background;
     private Logo logo;
 
@@ -26,8 +23,6 @@ public class MenuScreen extends BaseScreen {
         img = new Texture("badlogic.jpg");
         bg = new Texture("textures/bg.png");
 
-        touch = new Vector2();
-        buf = new Vector2();
         background =new Background(bg);
         logo =new Logo(img);
     }
@@ -37,13 +32,6 @@ public class MenuScreen extends BaseScreen {
         super.render(delta);
         Gdx.gl.glClearColor(0.5f, 0.9f, 0.4f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
-        buf.set(touch);
-        if (buf.sub(logo.pos).len() > 0.01f) {
-            logo.pos.add(logo.v);
-        } else {
-            logo.pos.set(touch);
-        }
 
         batch.begin();
         background.draw(batch);
@@ -61,7 +49,6 @@ public class MenuScreen extends BaseScreen {
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         super.touchDown(touch, pointer, button);
-        this.touch.set(touch);
         logo.touchDown(touch, pointer, button);
         return false;
     }
