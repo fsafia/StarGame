@@ -45,7 +45,7 @@ import com.mygdx.game.math.Rect;
 
     public  void touchDragged(Vector2 touch, int pointer){};
 
-    public  void upDate(float delta){};
+    public  void update(float delta){};
 
     public float getAngle() {
         return angle;
