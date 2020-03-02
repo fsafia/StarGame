@@ -1,6 +1,7 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,6 +24,7 @@ public class GameScreen extends BaseScreen {
     private final int STRAR_COUNT = 100;
     private MainShip mainShip;
     private BulletPool bulletPool;
+    private Music music;
 
 
     @Override
@@ -37,6 +39,9 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < STRAR_COUNT ; i++) {
             stars[i] = new Star(atlas);
         }
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+        music.play();
+        music.setLooping(true);
     }
 
     @Override
@@ -61,6 +66,8 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        mainShip.sound.dispose();
+        music.dispose();
         super.dispose();
     }
 
