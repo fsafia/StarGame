@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.BaseScreen;
 import com.mygdx.game.math.Rect;
+import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.MainShip;
 import com.mygdx.game.sprite.Star;
@@ -21,6 +22,7 @@ public class GameScreen extends BaseScreen {
     private Star[] stars;
     private final int STRAR_COUNT = 100;
     private MainShip mainShip;
+    private BulletPool bulletPool;
 
 
     @Override
@@ -29,7 +31,8 @@ public class GameScreen extends BaseScreen {
         bg = new Texture("textures/bg.png");
         background =new Background(bg);
         atlas = new TextureAtlas(Gdx.files.internal("textures/mainAtlas.tpack"));
-        mainShip = new MainShip(atlas);
+        bulletPool = new BulletPool();
+        mainShip = new MainShip(atlas, bulletPool );
         stars = new Star[STRAR_COUNT];
         for (int i = 0; i < STRAR_COUNT ; i++) {
             stars[i] = new Star(atlas);
@@ -39,6 +42,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         update(delta);
+        freeAllDestroyed();
         draw();
     }
 
@@ -56,6 +60,7 @@ public class GameScreen extends BaseScreen {
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        bulletPool.dispose();
         super.dispose();
     }
 
@@ -88,6 +93,11 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         mainShip.update(delta);
+        bulletPool.updateActiveSprites(delta);
+    }
+
+    public void freeAllDestroyed () {
+        bulletPool.freeAllDestroyedActiveObjects();
     }
 
     public void draw () {
@@ -100,6 +110,7 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         mainShip.draw(batch);
+        bulletPool.drawActiveSprites(batch);
         batch.end();
     }
 }

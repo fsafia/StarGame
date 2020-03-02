@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Sprite;
 import com.mygdx.game.math.Rect;
+import com.mygdx.game.pool.BulletPool;
 
 public class MainShip extends Sprite {
 
@@ -20,9 +21,18 @@ public class MainShip extends Sprite {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
+    private BulletPool bulletPool;
+    private TextureRegion bulletRegion;
+    private final Vector2 bulletV;
+    private final Vector2 bulletPos;
 
-    public MainShip(TextureAtlas atlas) {
+
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("main_ship"),1,2,2);
+        this.bulletPool = bulletPool;
+        this.bulletRegion = atlas.findRegion("bulletMainShip");
+        this.bulletV = new Vector2(0,0.5f);
+        this.bulletPos = new Vector2();
     }
     @Override
     public void resize(Rect worldBounds) {
@@ -56,6 +66,8 @@ public class MainShip extends Sprite {
                 pressedRight = true;
                 moveRight();
                 break;
+            case Input.Keys.UP:
+                shoot();
         }
     }
 
@@ -126,5 +138,11 @@ public class MainShip extends Sprite {
             }
         }
 
+    }
+
+    private void shoot() {
+        Bullet bullet = bulletPool.obtain();
+        bulletPos.set(pos.x, getTop());
+        bullet.set(this, bulletRegion, this.bulletPos, bulletV, 0.01f, worldBounds,1);
     }
 }
