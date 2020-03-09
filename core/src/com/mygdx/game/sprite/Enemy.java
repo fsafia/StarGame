@@ -11,6 +11,8 @@ import com.mygdx.game.pool.ExplosionPool;
 
 public class Enemy extends Ship {
 
+    public float type;
+
     public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound, Rect worldBounds) {
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
@@ -24,6 +26,16 @@ public class Enemy extends Ship {
 
     @Override
     public void update(float delta) {
+        if ( getTop() > worldBounds.getTop()) {
+            v.set(0,-0.2f);
+        } else {
+            if (type > 0.8f) {
+                v.set(0f, -0.005f);
+            }
+            if (type < 0.8f && type > 0.5f) {
+                v.set(0f, -0.03f);
+            }
+        }
         bulletPos.set(pos.x, getBottom());
         super.update(delta);
         if (getBottom() < worldBounds.getBottom()) {
@@ -40,7 +52,8 @@ public class Enemy extends Ship {
             int damage,
             float reloadInterval,
             float height,
-            int hp
+            int hp,
+            float type
     ){
         this.regions = regions;
         this.v0 = v0;
@@ -53,6 +66,7 @@ public class Enemy extends Ship {
         setHeightProportion(height);
         this.hp = hp;
         v.set(v0);
+        this.type = type;
 
     }
 }

@@ -8,14 +8,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.BaseScreen;
+import com.mygdx.game.base.Sprite;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Background;
+import com.mygdx.game.sprite.Enemy;
 import com.mygdx.game.sprite.MainShip;
 import com.mygdx.game.sprite.Star;
 import com.mygdx.game.utils.EnemiesEmitter;
+
+import java.util.List;
 
 public class GameScreen extends BaseScreen {
 
@@ -65,6 +69,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         update(delta);
+        checkCollisions();
         freeAllDestroyed();
         draw();
     }
@@ -138,7 +143,19 @@ public class GameScreen extends BaseScreen {
         enemiesEmitter.generate(delta);
     }
 
-    public void freeAllDestroyed () {
+    public void checkCollisions() {
+        for (Sprite s : enemyPool.getActiveObjects()) {
+            if (s.getBottom() < mainShip.getTop()) {
+                if((s.getLeft() < mainShip.getLeft() && mainShip.getLeft() < s.getRight()) || (s.getLeft() < mainShip.getRight() && mainShip.getRight() < s.getRight())) {
+                    System.out.println("столкновение");
+                    s.destroy();
+                }
+            }
+        }
+
+    }
+
+    private void freeAllDestroyed () {
         bulletPool.freeAllDestroyedActiveObjects();
         enemyPool.freeAllDestroyedActiveObjects();
         explosionPool.freeAllDestroyedActiveObjects();

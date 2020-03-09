@@ -73,7 +73,8 @@ public class EnemiesEmitter {
                         ENEMY_SMALL_DAMAGE,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HEIGHT,
-                        ENEMY_SMALL_HP
+                        ENEMY_SMALL_HP,
+                        type
                 );
             } else if(type < 0.8f) {
                 enemy.set(
@@ -85,7 +86,8 @@ public class EnemiesEmitter {
                         ENEMY_MEDIUM_DAMAGE,
                         ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HEIGHT,
-                        ENEMY_MEDIUM_HP
+                        ENEMY_MEDIUM_HP,
+                        type
                 );
             } else {
                 enemy.set(
@@ -97,7 +99,8 @@ public class EnemiesEmitter {
                         ENEMY_BIG_DAMAGE,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HEIGHT,
-                        ENEMY_BIG_HP
+                        ENEMY_BIG_HP,
+                        type
                 );
             }
 
