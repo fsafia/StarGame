@@ -2,7 +2,6 @@ package com.mygdx.game.sprite;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.ScaledButton;
 import com.mygdx.game.math.Rect;
 

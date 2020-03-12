@@ -11,6 +11,8 @@ import com.mygdx.game.sprite.Explosion;
 
 public class Ship extends Sprite {
 
+    protected final  float DAMAGE_ANIMATE_INTERVAL = 0.1f;
+
     protected  Vector2 v;
     protected  Vector2 v0;  //постоянная скорость - движение вдоль Х
 
@@ -27,6 +29,8 @@ public class Ship extends Sprite {
 
     protected float reloadTimer;                    //для автоматической
     protected float reloadInterval;            //стрельбы
+
+    protected float damageAnimateTimer = DAMAGE_ANIMATE_INTERVAL;
 
     protected Sound shootSound;
 
@@ -47,6 +51,10 @@ public class Ship extends Sprite {
             shoot();
             reloadTimer = 0f;
         }
+        damageAnimateTimer += delta;                           //мерцание корабля в момент попадания
+        if (damageAnimateTimer >= DAMAGE_ANIMATE_INTERVAL) {
+            frame = 0;
+        }
     }
 
     public void dispose(){
@@ -64,6 +72,8 @@ public class Ship extends Sprite {
         if(hp <= 0) {
             destroy();
         }
+        damageAnimateTimer = 0f;   //при попадании смена фрейма
+        frame = 1;
     }
 
     protected void boom() {
@@ -76,5 +86,9 @@ public class Ship extends Sprite {
         super.destroy();
         this.hp = 0;
         boom();
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }
