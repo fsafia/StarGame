@@ -41,7 +41,7 @@ public class EnemiesEmitter {
     private  final TextureRegion [] enemyBigRegions;
 
     private final Vector2 enemySmallV = new Vector2(0f, -0.2f);
-    private final Vector2 enemyMediumV = new Vector2(0f, -0.3f);
+    private final Vector2 enemyMediumV = new Vector2(0f, -0.03f);
     private final Vector2 enemyBigV = new Vector2(0f, -0.005f);
 
     private TextureRegion bulletRegion;
@@ -73,8 +73,7 @@ public class EnemiesEmitter {
                         ENEMY_SMALL_DAMAGE,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HEIGHT,
-                        ENEMY_SMALL_HP,
-                        type
+                        ENEMY_SMALL_HP
                 );
             } else if(type < 0.8f) {
                 enemy.set(
@@ -86,8 +85,7 @@ public class EnemiesEmitter {
                         ENEMY_MEDIUM_DAMAGE,
                         ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HEIGHT,
-                        ENEMY_MEDIUM_HP,
-                        type
+                        ENEMY_MEDIUM_HP
                 );
             } else {
                 enemy.set(
@@ -99,8 +97,7 @@ public class EnemiesEmitter {
                         ENEMY_BIG_DAMAGE,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HEIGHT,
-                        ENEMY_BIG_HP,
-                        type
+                        ENEMY_BIG_HP
                 );
             }
 

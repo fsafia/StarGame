@@ -11,7 +11,7 @@ import com.mygdx.game.pool.ExplosionPool;
 
 public class Enemy extends Ship {
 
-    public float type;
+    private  final Vector2 descentV;  //большая скорость чтоб корабль быстро выезжал на поле
 
     public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound, Rect worldBounds) {
         this.bulletPool = bulletPool;
@@ -22,19 +22,15 @@ public class Enemy extends Ship {
         this.v0 = new Vector2();
         this.bulletV = new Vector2();
         this.bulletPos = new Vector2();
+        this.descentV = new Vector2(0, -0.3f);
     }
 
     @Override
     public void update(float delta) {
-        if ( getTop() > worldBounds.getTop()) {
-            v.set(0,-0.2f);
+        if ( getTop() < worldBounds.getTop()) {  //корабль появился на поле
+            v.set(v0);
         } else {
-            if (type > 0.8f) {
-                v.set(0f, -0.005f);
-            }
-            if (type < 0.8f && type > 0.5f) {
-                v.set(0f, -0.03f);
-            }
+            this.reloadTimer = reloadInterval *  0.9f;
         }
         bulletPos.set(pos.x, getBottom());
         super.update(delta);
@@ -52,8 +48,7 @@ public class Enemy extends Ship {
             int damage,
             float reloadInterval,
             float height,
-            int hp,
-            float type
+            int hp
     ){
         this.regions = regions;
         this.v0 = v0;
@@ -62,12 +57,17 @@ public class Enemy extends Ship {
         this.bulletV.set(0, bulletVY);
         this.damage = damage;
         this.reloadInterval = reloadInterval;
-        this.reloadTimer = reloadInterval;
+        this.reloadTimer = 0f;
         setHeightProportion(height);
         this.hp = hp;
-        v.set(v0);
-        this.type = type;
+        v.set(descentV);
+    }
 
+    public boolean isBulletCollision(Rect bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > getTop()
+                || bullet.getTop() < pos.y);
     }
 }
 

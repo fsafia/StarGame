@@ -59,6 +59,13 @@ public class Ship extends Sprite {
         bullet.set(this, bulletRegion, this.bulletPos, bulletV, bulletHeight, worldBounds,damage);
     }
 
+    public void damage(int damage) {
+        this.hp -= damage;
+        if(hp <= 0) {
+            destroy();
+        }
+    }
+
     protected void boom() {
         Explosion explosion = explosionPool.obtain();
         explosion.set(getHeight(), pos);
@@ -67,6 +74,7 @@ public class Ship extends Sprite {
     @Override
     public void destroy() {
         super.destroy();
+        this.hp = 0;
         boom();
     }
 }

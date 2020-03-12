@@ -14,6 +14,7 @@ import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Background;
+import com.mygdx.game.sprite.Bullet;
 import com.mygdx.game.sprite.Enemy;
 import com.mygdx.game.sprite.MainShip;
 import com.mygdx.game.sprite.Star;
@@ -144,13 +145,29 @@ public class GameScreen extends BaseScreen {
     }
 
     public void checkCollisions() {
-        for (Sprite s : enemyPool.getActiveObjects()) {
-            if (s.getBottom() < mainShip.getTop()) {
-                if((s.getLeft() < mainShip.getLeft() && mainShip.getLeft() < s.getRight()) || (s.getLeft() < mainShip.getRight() && mainShip.getRight() < s.getRight())) {
-                    System.out.println("столкновение");
-                    s.destroy();
+        List<Enemy> enemyList = enemyPool.getActiveObjects();
+        for (Enemy enemy : enemyList) {
+            float minDist = mainShip.getHalfHeight() + enemy.getHalfWidth();
+            if (mainShip.pos.dst(enemy.pos) <= minDist) {
+                enemy.destroy();
+            }
+        }
+        List<Bullet> bulletList = bulletPool.getActiveObjects();
+        for (Bullet bullet : bulletList) {
+            if(bullet.getOwner() != mainShip) {  // если пуля вражеского корабля
+                if (mainShip.isBulletCollision(bullet)) {
+                    mainShip.damage(bullet.getDamage());
+                    bullet.destroy();
+                }
+                continue;
+            }
+            for (Enemy enemy : enemyList) {        //если пуля с нашего корабля
+                if (enemy.isBulletCollision(bullet)) {
+                    enemy.damage(bullet.getDamage());
+                    bullet.destroy();
                 }
             }
+
         }
 
     }
