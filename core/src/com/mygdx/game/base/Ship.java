@@ -34,6 +34,8 @@ public class Ship extends Sprite {
 
     protected Sound shootSound;
 
+
+
     protected int hp;   //количество жизней
 
     public Ship(TextureRegion region, int rows, int cols, int frames) {
@@ -90,5 +92,13 @@ public class Ship extends Sprite {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public Vector2 getV() {
+        return v;
     }
 }

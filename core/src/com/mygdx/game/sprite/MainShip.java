@@ -15,7 +15,7 @@ public class MainShip extends Ship {
     private boolean pressedRight;
 
     private static final int INVALID_POINTER = -1;
-    private static final int HP = 10;
+    private static final int HP = 100;
 
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;

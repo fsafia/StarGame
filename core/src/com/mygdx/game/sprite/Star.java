@@ -8,7 +8,7 @@ import com.mygdx.game.math.Rnd;
 
 public class Star extends Sprite {
 
-    private final  Vector2 v;
+    protected final  Vector2 v;
     private Rect worldBounds;
 
     private float animateTimer;                    //для
@@ -34,6 +34,17 @@ public class Star extends Sprite {
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
+        checkAndHabdleBounds();
+        animateTimer += delta;
+        if (animateTimer >= animateInterval) {
+            animateTimer = 0;
+            setHeightProportion(STAR_HIGHT);
+        } else {
+            setHeightProportion(getHeight() + 0.0001f);
+        }
+    }
+
+    public void checkAndHabdleBounds() {
         if(getRight() < worldBounds.getLeft()) {
             setLeft(worldBounds.getRight());
         }
@@ -48,13 +59,6 @@ public class Star extends Sprite {
 
         if (getBottom() > worldBounds.getTop()) {
             setTop(worldBounds.getBottom());
-        }
-        animateTimer += delta;
-        if (animateTimer >= animateInterval) {
-            animateTimer = 0;
-            setHeightProportion(STAR_HIGHT);
-        } else {
-            setHeightProportion(getHeight() + 0.0001f);
         }
     }
 }
