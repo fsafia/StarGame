@@ -237,4 +237,12 @@ public class GameScreen extends BaseScreen {
         }
         batch.end();
     }
+
+    public void startNewGame(){
+        state = State.PLAING;
+        mainShip.startNewGame();
+        bulletPool.freeAllActiveObjects();
+        enemyPool.freeAllActiveObjects();
+        explosionPool.freeAllDestroyedActiveObjects();
+    }
 }

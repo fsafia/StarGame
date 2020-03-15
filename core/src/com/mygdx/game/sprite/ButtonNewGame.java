@@ -15,12 +15,12 @@ public class ButtonNewGame extends ScaledButton {
 
     @Override
     public void action() {
-
+        gameScreen.startNewGame();
     }
 
     @Override
     public void resize(Rect worldBounds) {
         setHeightProportion(0.09f);
-        pos.y = -0.2f;
+        pos.y = -0.1f;
     }
 }
