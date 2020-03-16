@@ -15,6 +15,8 @@ public class MainShip extends Ship {
     private boolean pressedRight;
 
     private static final int INVALID_POINTER = -1;
+    private static final int HP = 100;
+
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
@@ -29,7 +31,7 @@ public class MainShip extends Ship {
         this.bulletPos = new Vector2();
         this.bulletHeight = 0.01f;
         this.damage = 1;
-        this.hp = 10;
+        this.hp = HP;
         this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         this.reloadInterval = 0.2f;
     }
@@ -145,5 +147,16 @@ public class MainShip extends Ship {
                 || bullet.getLeft() > getRight()          //пуля справа true! = false
                 || bullet.getBottom() > pos.y          // низ пули больше до середины корабля true! =false
                 || bullet.getTop() < getBottom());          //верх пули меньше низа корабля
+    }
+
+    public void startNewGame(){
+        this.hp = HP;
+        stop();
+        pressedLeft = false;
+        pressedRight = false;
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
+        this.pos.x = worldBounds.pos.x;
+        flushDestroy();
     }
 }

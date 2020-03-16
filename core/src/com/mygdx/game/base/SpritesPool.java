@@ -41,6 +41,7 @@ public abstract class SpritesPool<T extends Sprite> {
         }
     }
 
+
     public  void freeAllDestroyedActiveObjects() {
         for (int i = 0; i < activeObjects.size(); i++) {
             T sprite = activeObjects.get(i);
@@ -50,6 +51,11 @@ public abstract class SpritesPool<T extends Sprite> {
                 sprite.flushDestroy();
             }
         }
+    }
+
+    public  void freeAllActiveObjects() {
+        freeObjects.addAll(activeObjects);
+        activeObjects.clear();
     }
 
     public List<T> getActiveObjects() {
